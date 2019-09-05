@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p>
+    <h5>当前用户的用户名是<%= name %><%=age<18?"未成年":"已成年" %></h5>
+    <% if(ismengzhu){%>
+    <p>是一个武林盟主</p>
+    <% } %>
+    <ul>
+      <% list.forEach(person=>{%>
+      <li><%=person.name%></li>
+      <%}) %>
+    </ul>
+  </body>
+</html>
