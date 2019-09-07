@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>富文本编辑器</title>
+    <link rel="stylesheet" href="/kindeditor/themes/default/default.css" />
+    <link rel="stylesheet" href="/kindeditor/plugins/code/prettify.css" />
+    <script charset="utf-8" src="/kindeditor/kindeditor-all-min.js"></script>
+    <script charset="utf-8" src="/kindeditor/lang/zh-CN.js"></script>
+    <script charset="utf-8" src="/kindeditor/plugins/code/prettify.js"></script>
+  </head>
+  <body>
+    <textarea
+      name="content1"
+      style="width:700px;height:200px;visibility:hidden;"
+    ></textarea>
+    <button onclick="saveHandle()">提交</button>
+    <!-- 写提交按钮，目的是点击这个按钮，把文本内容提交到服务器上 -->
+    <div id="c"></div>
+    <!-- 写这个div目的是把编辑器的内容在页面中展示出来 -->
+    <script>
+      var editor1; //需要把editor1定义在外面，定义到里面不行
+      KindEditor.ready(function(K) {
+        editor1 = K.create('textarea[name="content1"]');
+      });
+
+      function saveHandle() {
+        editor1.sync();
+        var content = document.querySelector('textarea[name="content1"]');
+        console.log(content.value); //打印出来后，需要把它在页面中展示出来
+        document.querySelector('#c').innerHTML = content.value;
+      }
+    </script>
+  </body>
+</html>

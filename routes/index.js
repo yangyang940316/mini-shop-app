@@ -18,6 +18,10 @@ router.get('/books/:id', async (req, res, next) => {
   });
 });
 
+router.get('/richtext', (req, res) => {
+  res.render('richtext');
+});
+
 router.get('/', function(req, res, next) {
   //res.render它的作用是使用指定的模板文件显示页面内容
   res.render('index', {

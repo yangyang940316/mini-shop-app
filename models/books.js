@@ -12,7 +12,7 @@ const modelSchema = new Schema(
       default: 0 //表示是一个默认值
     },
     author: {
-      type: Number,
+      type: String,
       default: ''
     },
     publishTime: {

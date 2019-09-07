@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>书籍新增</title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+
+    <link rel="shortcut icon" href="/hadmin/favicon.ico" />
+    <link href="/hadmin/css/bootstrap.min.css?v=3.3.6" rel="stylesheet" />
+    <link href="/hadmin/css/font-awesome.css?v=4.4.0" rel="stylesheet" />
+
+    <link href="/hadmin/css/animate.css" rel="stylesheet" />
+    <link href="/hadmin/css/style.css?v=4.1.0" rel="stylesheet" />
+  </head>
+
+  <body>
+    <div class="wrapper wrapper-content animated fadeInRight">
+      <form action="/admin/books/create" method="POST" role="form">
+        <legend>书籍新增</legend>
+
+        <div class="form-group">
+          <label for="">书名</label>
+          <input
+            type="text"
+            class="form-control"
+            name="title"
+            placeholder="请输入书名"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="">封面</label>
+          <input
+            type="file"
+            class="form-control"
+            id="fileSel"
+            placeholder="请输入书名"
+            style="display: none"
+          />
+          <img
+            src="/images/upload.png"
+            id="img"
+            alt=""
+            style="width:80px;height:80px"
+          />
+          <input type="hidden" id="txtCoverImg" name="coverImg" />
+        </div>
+
+        <button type="submit" class="btn btn-primary">提交</button>
+      </form>
+    </div>
+
+    <!-- 全局js -->
+    <script src="/hadmin/js/jquery.min.js?v=2.1.4"></script>
+    <script src="/hadmin/js/bootstrap.min.js?v=3.3.6"></script>
+    <script>
+      $(function() {
+        $('#img').click(function() {
+          $('#fileSel').click(); //手动触发click选择事件
+          $('#fileSel').change(function(event) {
+            console.log(event);
+            var file = event.currentTarget.files[0]; //取到这张图片
+            const formData = new FormData(); //formData是js内置对象，可以组织成一个表单数据实现文件上传
+            formData.append('file', file);
+            $.ajax({
+              type: 'post',
+              url: '/api/v1/common/file_upload',
+              data: formData,
+              processData: false, //数据不做序列化,即不序列化传递的数据
+              cache: false, //是否缓存
+              contentType: false, //设置contentType为false,数据是什么样子就传什么样子，不做编码
+              success: function(response) {
+                console.log(response);
+                $('#img').attr('src', response.info);
+                $('#txtCoverImg').val(response.info);
+              }
+            });
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

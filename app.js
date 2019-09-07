@@ -32,6 +32,38 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/api/v1/books', require('./routes/api/v1/book')); //这一步执行成功的话，数据就被请求出来了，接下来需要在在页面中展示出来，回到index.js中进行代码编写
+app.use('/admin/books', require('./routes/admin/book')); //是管理后台的路由
+app.use('/admin/main', require('./routes/admin/main')); //是管理后台main的路由
+app.use('/api/v1/common', require('./routes/api/v1/common')); //引入上传文件的路由
+//登录设置
+app.get('/admin_login', (req, res) => {
+  res.render('admin/login');
+});
+
+app.post('/admin_login', (req, res) => {
+  if (req.body.userName == 'wangxiaohua' && req.body.pwd == '123456') {
+    res.cookie('userId', Date.now()); //res.cookie()，是服务器端设置cookie
+    res.json({
+      code: 1,
+      msg: '登录成功'
+    });
+  } else {
+    res.json({
+      code: 0,
+      msg: '用户信息不存在'
+    });
+  }
+});
+
+app.all('/admin/*', (req, res, next) => {
+  if (req.cookies.userId) {
+    next();
+  } else {
+    res.send('请登录');
+    res.redirect('/admin_login');
+  }
+});
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
